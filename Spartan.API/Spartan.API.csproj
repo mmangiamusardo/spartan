@@ -171,6 +171,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActionFilters\LoggingFilterAttribute.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -211,6 +212,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\JSONHelper.cs" />
+    <Compile Include="Helpers\NLogger.cs" />
+    <Compile Include="Helpers\ServiceStatus.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -226,8 +230,6 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\bootstrap.js" />
-    <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
@@ -247,17 +249,36 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\jquery-1.10.2.js" />
-    <Content Include="Scripts\jquery-1.10.2.min.js" />
-    <None Include="Scripts\jquery.validate-vsdoc.js" />
-    <Content Include="Scripts\jquery.validate.js" />
-    <Content Include="Scripts\jquery.validate.min.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
-    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Scripts\respond.js" />
-    <Content Include="Scripts\respond.min.js" />
+    <None Include="Index.cshtml" />
+    <Content Include="Scripts\app\app.js" />
+    <Content Include="Scripts\app\components\articleCmp.html" />
+    <Content Include="Scripts\app\components\cartCmp.html" />
+    <Content Include="Scripts\app\components\profileCmp.html" />
+    <Content Include="Scripts\app\controllers\accountcontroller.js" />
+    <Content Include="Scripts\app\controllers\articlecontroller.js" />
+    <Content Include="Scripts\app\controllers\cartcontroller.js" />
+    <Content Include="Scripts\app\controllers\checkoutcontroller.js" />
+    <Content Include="Scripts\app\controllers\processcontroller.js" />
+    <Content Include="Scripts\app\directives\articleCmp.js" />
+    <Content Include="Scripts\app\directives\cartCmp.js" />
+    <Content Include="Scripts\app\directives\profileCmp.js" />
+    <Content Include="Scripts\app\partials\sidebar.html" />
+    <Content Include="Scripts\app\services\accountservice.js" />
+    <Content Include="Scripts\app\services\articleservice.js" />
+    <Content Include="Scripts\app\services\cartservice.js" />
+    <Content Include="Scripts\app\services\orderservice.js" />
+    <Content Include="Scripts\app\services\profileservice.js" />
+    <Content Include="Scripts\app\services\shareddataservice.js" />
+    <Content Include="Scripts\app\views\article.html" />
+    <Content Include="Scripts\app\views\cart.html" />
+    <Content Include="Scripts\app\views\checkout.html" />
+    <Content Include="Scripts\app\views\orders.html" />
+    <Content Include="Scripts\app\views\overlay.html" />
+    <Content Include="Scripts\app\views\process.html" />
+    <Content Include="Scripts\app\views\profile.html" />
+    <Content Include="Scripts\app\views\register.html" />
+    <Content Include="Scripts\app\views\signin.html" />
+    <Content Include="Scripts\app\views\wishes.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -267,15 +288,17 @@
     </Content>
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="Content\Site.css" />
-    <Content Include="Scripts\_references.js" />
-    <Content Include="Views\Web.config" />
-    <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\css\" />
+    <Folder Include="Content\fonts\" />
+    <Folder Include="Content\js\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -283,7 +306,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -303,7 +325,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>62039</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:62039/</IISUrl>
+          <IISUrl>http://localhost:50041/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
