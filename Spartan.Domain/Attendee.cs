@@ -8,7 +8,11 @@ namespace Spartan.Domain
 {
     public class Attendee
     {
-        public Gym Gym { get; set; }
+        public Athlete Athlete { get; set; }
 
+        public string AppUserId { get; set; }
+        public virtual ApplicationUser AppUser { get; set; }
+
+        public List<Event> Events { get; set; } 
     }
 }

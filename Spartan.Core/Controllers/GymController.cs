@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
 using System.Net;
 using System.Net.Http;
@@ -7,16 +8,21 @@ using System.Web.Http;
 using Spartan.Domain;
 using Spartan.Service;
 
-namespace Spartan.Core.Controllers
+namespace Spartan.Core
 {
-    [Authorize]
+    //[Authorize]
     public class GymsController : ApiController
     {
-        private IGymService gymService;
+        private readonly IGymService _gymService;
 
         public GymsController(IGymService gymService)
         {
-            this.gymService = gymService;
+            this._gymService = gymService;
+        }
+
+        public PagedCollection<Gym> GetPaged()
+        {
+            return _gymService.GetPagedGyms(0, 0);
         }
 
         public IHttpActionResult PostGym(Gym gym)
@@ -29,7 +35,7 @@ namespace Spartan.Core.Controllers
 
             try
             {
-                gymService.CreateGym(gym);
+                _gymService.CreateGym(gym);
 
                 //return CreatedAtRoute("DefaultApi", new { id = order.OrderID }, order);
                 return Ok(gym);

@@ -8,6 +8,6 @@ namespace Spartan.Data.Infrastructure
 {
     public interface IDbFactory : IDisposable
     {
-        SpartanEntities Init();
+        SpartanEntitiesContext Init();
     }
 }

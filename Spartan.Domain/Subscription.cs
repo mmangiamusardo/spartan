@@ -6,16 +6,14 @@ using System.Threading.Tasks;
 
 namespace Spartan.Domain
 {
-    public class Event
+    public class Subscription
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public Class Class { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
         public string Frequency { get; set; }
-
-        public List<Attendee> Attendees { get; set; }
     }
+
 
 }

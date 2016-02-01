@@ -5,6 +5,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
 
 namespace Spartan.Data.Infrastructure
 {
@@ -12,7 +13,7 @@ namespace Spartan.Data.Infrastructure
     {
         #region Properties
 
-            private SpartanEntities dataContext;
+            private SpartanEntitiesContext dataContext;
             private readonly IDbSet<T> dbSet;
 
             protected IDbFactory DbFactory
@@ -21,7 +22,7 @@ namespace Spartan.Data.Infrastructure
                 private set;
             }
 
-            protected SpartanEntities DbContext
+            protected SpartanEntitiesContext DbContext
             {
                 get { 
                     return dataContext ?? (dataContext = DbFactory.Init()); 
@@ -61,13 +62,12 @@ namespace Spartan.Data.Infrastructure
                     dbSet.Remove(obj);
             }
 
-            public virtual IList<T> GetAll(
+            public virtual IQueryable<T> GetAll(
                 params Expression<Func<T, object>>[] navigationProperties)
             {
                 return dbSet
                     .IncludeMultiple(navigationProperties)
-                    .AsNoTracking()
-                    .ToList();
+                    .AsNoTracking().AsQueryable();
             }
 
             public virtual IList<T> GetMany(Expression<Func<T, bool>> where,

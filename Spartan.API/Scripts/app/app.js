@@ -9,6 +9,8 @@
     app.constant('articleSrvUrl', 'http://localhost:50040/api/products/');
     app.constant('profileSrvUrl', 'http://localhost:50040/api/customers/');
 
+    app.constant('gymUrl', 'http://localhost:50041/api/gyms/');
+
     app.run(function ($transform) {
         window.$transform = $transform;
     });
@@ -39,23 +41,26 @@
 
     app.config(['$routeProvider', function ($routeProvider) {
 
-        $routeProvider.when('/article/page/:pageIndex/:pageSize', {
-            templateUrl: 'Scripts/app/views/article.html',
-            controller: 'ArticleCtrl',
+        $routeProvider.when("/gyms/page/:pageIndex/:pageSize", {
+            templateUrl: "Scripts/app/views/gym.html",
+            controller: "gymCtrl",
             resolve: {
-                articles: function (srvArticle, $route) {
-                    return srvArticle.getArticles($route.current.params.pageIndex,
-                        $route.current.params.pageSize);
+                gyms: function (srvGym, $route) {
+                    return srvGym.getGyms(
+                        $route.current.params.pageIndex,
+                        $route.current.params.pageSize
+                        );
                 }
             }
         });
 
-        $routeProvider.when('/article', {
-            templateUrl: 'Scripts/app/views/article.html',
-            controller: 'ArticleCtrl',
+
+        $routeProvider.when("/gym", {
+            templateUrl: "Scripts/app/views/gym.html",
+            controller: "gymCtrl",
             resolve: {
-                articles: function (srvArticle, $route) {
-                    return srvArticle.getArticles();
+                gyms: function (srvGym, $route) {
+                    return srvGym.getGyms();
                 }
             }
         });
@@ -113,11 +118,11 @@
             templateUrl: 'Scripts/app/views/wishes.html'
         });
 
-        $routeProvider.otherwise({ redirectTo: '/article' });
+        $routeProvider.otherwise({ redirectTo: "/gyms" });
 
     }]);
 
-    app.controller('MainCtrl', function ($scope, $location, srvAccount) {
+    app.controller("MainCtrl", function ($scope, $location, srvAccount) {
 
         $scope.isUserAuthenticated = function () {
             return srvAccount.isUserAuthenticated();

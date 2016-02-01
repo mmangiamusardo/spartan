@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Spartan.Domain
 {
-    public class Class
+    public class Workout
     {
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public ClassType ClassType { get; set; }
-        public Workout Workout { get; set; }
+        public string Text { get; set; }
+        public bool Template { get; set; }
     }
 }

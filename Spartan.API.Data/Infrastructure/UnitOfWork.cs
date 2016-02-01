@@ -9,14 +9,14 @@ namespace Spartan.Data.Infrastructure
     public class UnitOfWork : IUnitOfWork
     {
         private readonly IDbFactory dbFactory;
-        private SpartanEntities dbContext;
+        private SpartanEntitiesContext dbContext;
 
         public UnitOfWork(IDbFactory dbFactory)
         {
             this.dbFactory = dbFactory;
         }
 
-        public SpartanEntities DbContext
+        public SpartanEntitiesContext DbContext
         {
             get { return dbContext ?? (dbContext = dbFactory.Init()); }
         }

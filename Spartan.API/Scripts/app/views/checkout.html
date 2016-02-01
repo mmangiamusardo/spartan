@@ -31,12 +31,13 @@
 
             <div class="form-group">
                 <label for="shipper" class="control-label">Shipper</label>
-                 <select class="form-control" ng-model="selectedShipper">
-                    <option ng-selected= "{{value.ShipperID == selectedShipper}}" 
-                            ng-repeat="value in shippers" 
-                            value="{{value.ShipperID}}">{{value.CompanyName}}     
+                <select class="form-control" ng-model="selectedShipper">
+                    <option ng-selected="{{value.ShipperID == selectedShipper}}"
+                            ng-repeat="value in shippers"
+                            value="{{value.ShipperID}}">{{value.CompanyName}}
                     </option>
-             </select>
+                </select>
+            </div>
             
             <profile-customer></profile-customer>
 

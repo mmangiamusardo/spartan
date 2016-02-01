@@ -3,8 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Serialization;
+using NLog;
+using NLog.LayoutRenderers;
+
+using Autofac;
+using Autofac.Integration.WebApi;
+
+using Spartan.Core;
+using Spartan.Service;
+using Spartan.Data.Repositories;
+using Spartan.Data.Infrastructure;
 
 namespace Spartan.API
 {
@@ -17,6 +28,28 @@ namespace Spartan.API
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
+            // Autofac configuration
+            var builder = new ContainerBuilder();
+            builder.RegisterApiControllers(typeof(GymsController).Assembly);
+
+            builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();
+            builder.RegisterType<DbFactory>().As<IDbFactory>().InstancePerRequest();
+
+            //Repositories
+            builder.RegisterAssemblyTypes(typeof(GymRepository).Assembly)
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces().InstancePerRequest();
+
+            // Services
+            builder.RegisterAssemblyTypes(typeof(GymService).Assembly)
+               .Where(t => t.Name.EndsWith("Service"))
+               .AsImplementedInterfaces().InstancePerRequest();
+
+            IContainer container = builder.Build();
+            config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
+
+
+
             // Web API routes
             config.MapHttpAttributeRoutes();
 
@@ -25,6 +58,35 @@ namespace Spartan.API
                 routeTemplate: "api/{controller}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Routes.MapHttpRoute(
+               name: "PagedItemsApiWithParams",
+               routeTemplate: "api/{controller}/page/{pageIndex}/{pageSize}",
+               defaults: new
+               {
+                   action = "GetPaged"
+               }
+            );
+
+            config.Routes.MapHttpRoute(
+               name: "PagedItemsApiNoParams",
+               routeTemplate: "api/{controller}/page",
+               defaults: new
+               {
+                   action = "GetPaged"
+               }
+            );
+
+
+            // Logger Handler
+            config.MessageHandlers.Add(new LoggerDelegatingHandler());
+
+            // Exception Handler
+            config.Services.Replace(typeof(IExceptionHandler), new GeneralExceptionHandler());
+
+            // Remove default xml formatter
+            config.Formatters.Remove(config.Formatters.XmlFormatter);
+
         }
     }
 }

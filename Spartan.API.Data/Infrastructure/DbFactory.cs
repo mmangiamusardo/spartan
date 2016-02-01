@@ -8,11 +8,11 @@ namespace Spartan.Data.Infrastructure
 {
     public class DbFactory : Disposable, IDbFactory
     {
-        SpartanEntities dbContext;
+        SpartanEntitiesContext dbContext;
 
-        public SpartanEntities Init()
+        public SpartanEntitiesContext Init()
         {
-            return dbContext ?? (dbContext = new SpartanEntities());
+            return dbContext ?? (dbContext = new SpartanEntitiesContext());
         }
 
         protected override void DisposeCore()

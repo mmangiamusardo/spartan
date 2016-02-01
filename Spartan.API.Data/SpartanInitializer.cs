@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Spartan.Domain;
 
 namespace Spartan.Data
 {
-    public class SpartanInitializer : DropCreateDatabaseIfModelChanges<SpartanEntities>
+    public class SpartanInitializer : DropCreateDatabaseIfModelChanges<SpartanEntitiesContext>
     {
-        protected override void Seed(SpartanEntities context)
+        protected override void Seed(SpartanEntitiesContext context)
         {
-            GetClasses().ForEach(c => context.Classes.Add(c));
+            //GetClasses().ForEach(c => context.Classes.Add(c));
+            GetGyms().ForEach(g => context.Gyms.Add(g));
 
             context.Commit();
         }
@@ -39,6 +36,12 @@ namespace Spartan.Data
                     Id = 1,
                     Name = "CrossFit Box 1",
                     GymType = GetGymTypes().Find(g => g.Name == "CrossFit Box")
+                },
+                new Gym
+                {
+                    Id = 2,
+                    Name = "Personal Box 1",
+                    GymType = GetGymTypes().Find(g => g.Name == "Personal")
                 }
             };
         }
@@ -51,7 +54,23 @@ namespace Spartan.Data
                 {
                     Id = 1,
                     Name = "CrossFit Box"
+                },
+                new GymType
+                {
+                    Id = 2,
+                    Name = "Generic Gym"
+                },
+                new GymType
+                {
+                    Id = 3,
+                    Name = "Martial Arts"
+                },
+                new GymType
+                {
+                    Id = 4,
+                    Name = "Personal"
                 }
+
             };
         }
 
@@ -118,9 +137,9 @@ namespace Spartan.Data
             };
         }
     
-        public static AppUser GetUser()
+        public static ApplicationUser GetUser()
         {
-            return new AppUser()
+            return new ApplicationUser()
             {
                 Id = "f2de7012-5411-4e33-b4c5-abdc54662715",
                 Email = "test@test.com",
@@ -134,7 +153,5 @@ namespace Spartan.Data
                 UserName = "test@test.com"
             };
         }
-
-        
     }
 }

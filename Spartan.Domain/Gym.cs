@@ -21,8 +21,11 @@ namespace Spartan.Domain
 
         public string WebUrl { get; set; }
 
-        public string AppUserID { get; set; }
-        public virtual AppUser AppUser { get; set; }
+        public string OpeningHour { get; set; }
+        public string ClosingHour { get; set; }
+
+        public string AppUserId { get; set; }
+        public virtual ApplicationUser AppUser { get; set; }
 
     }
 

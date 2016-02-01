@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace Spartan.API.Results
+namespace Spartan.Core
 {
     public class ChallengeResult : IHttpActionResult
     {

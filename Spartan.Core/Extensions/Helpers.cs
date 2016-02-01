@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Collections.Generic;
 
-namespace Spartan.Core.Controllers
+namespace Spartan.Core
 {
     public static class Extensions
     {

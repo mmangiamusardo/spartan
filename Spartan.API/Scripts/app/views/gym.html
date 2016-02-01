@@ -1,0 +1,32 @@
+﻿<div class="scrollable">
+    <div class="scrollable-content">
+        <div class="list-group-item list-group-item-home" style="height: 100%">
+            <fieldset>
+                <legend>Workout</legend>
+
+                <div class="form-group">
+                    <label>Name</label>
+                    <span style="color: red" ng-show="form.gName.$dirty && form.gName.$invalid">
+                        <span ng-show="form.gName.$error.required"> is required.</span>
+                    </span>
+                    <input type="text" required
+                           class="form-control"
+                           placeholder=""
+                           ng-model="Name" name="wName"/>
+                </div>
+
+                <div class="form-group">
+                    <label>Name</label>
+                    <span style="color: red" ng-show="form.gName.$dirty && form.gName.$invalid">
+                        <span ng-show="form.gName.$error.required"> is required.</span>
+                    </span>
+                    <input type="text" required
+                           class="form-control"
+                           placeholder=""
+                           ng-model="Name" name="wName" />
+                </div>
+
+            </fieldset>
+        </div>
+    </div>
+</div>

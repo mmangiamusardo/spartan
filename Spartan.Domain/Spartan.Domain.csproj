@@ -57,9 +57,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AppUser.cs" />
+    <Compile Include="ApplicationUser.cs" />
+    <Compile Include="Subscription.cs" />
     <Compile Include="Athlete.cs" />
     <Compile Include="Attendee.cs" />
+    <Compile Include="Workout.cs" />
     <Compile Include="Gym.cs" />
     <Compile Include="Event.cs" />
     <Compile Include="ClassType.cs" />

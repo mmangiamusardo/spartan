@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
-namespace Spartan.API.Models
+namespace Spartan.Core
 {
     // Models used as parameters to AccountController actions.
 

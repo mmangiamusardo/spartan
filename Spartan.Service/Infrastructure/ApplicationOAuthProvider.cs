@@ -9,9 +9,9 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
-using Spartan.API.Models;
+using Spartan.Domain;
 
-namespace Spartan.API.Providers
+namespace Spartan.Service
 {
     public class ApplicationOAuthProvider : OAuthAuthorizationServerProvider
     {
@@ -27,6 +27,11 @@ namespace Spartan.API.Providers
             _publicClientId = publicClientId;
         }
 
+        /// <summary>
+        /// Grants Owner Credentials for SignIn
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
             var userManager = context.OwinContext.GetUserManager<ApplicationUserManager>();
@@ -41,12 +46,15 @@ namespace Spartan.API.Providers
 
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
                OAuthDefaults.AuthenticationType);
+
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
                 CookieAuthenticationDefaults.AuthenticationType);
 
             AuthenticationProperties properties = CreateProperties(user.UserName);
+
             AuthenticationTicket ticket = new AuthenticationTicket(oAuthIdentity, properties);
             context.Validated(ticket);
+
             context.Request.Context.Authentication.SignIn(cookiesIdentity);
         }
 

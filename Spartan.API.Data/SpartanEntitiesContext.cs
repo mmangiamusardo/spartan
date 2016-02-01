@@ -12,10 +12,10 @@ using Spartan.Data.Configurations;
 
 namespace Spartan.Data
 {
-    public class SpartanEntities : IdentityDbContext<AppUser>
+    public class SpartanEntitiesContext : IdentityDbContext<ApplicationUser>
     {
-        public SpartanEntities()
-            : base("SpartanEntities")
+        public SpartanEntitiesContext()
+            : base("SpartanEntitiesContext")
         {
             Configuration.ProxyCreationEnabled = false;
             Configuration.LazyLoadingEnabled = false;
@@ -38,9 +38,9 @@ namespace Spartan.Data
             modelBuilder.Configurations.Add(new GymConfiguration());
         }
 
-        public static SpartanEntities Create()
+        public static SpartanEntitiesContext Create()
         {
-            return new SpartanEntities();
+            return new SpartanEntitiesContext();
         }
     }
 }

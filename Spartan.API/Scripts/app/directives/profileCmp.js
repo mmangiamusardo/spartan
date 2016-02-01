@@ -19,17 +19,16 @@
 
                 var failSave = function (error) {
                     console.log(error);
-                    var errorMessage = '';
+                    var errorMessage = "";
 
-                    for (var i = 0; i < error.length; i++)
-                    {
-                        errorMessage+= error[i] + "</br>"
+                    for (var i = 0; i < error.length; i++) {
+                        errorMessage += error[i] + "</br>";
                     }
 
                     toaster.pop({
-                        type: 'error',
+                        type: "error",
                         body: errorMessage,
-                        bodyOutputType: 'trustedHtml',
+                        bodyOutputType: "trustedHtml"
                     });
                 };
 

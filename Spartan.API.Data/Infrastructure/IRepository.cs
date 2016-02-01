@@ -27,7 +27,7 @@ namespace Spartan.Data.Infrastructure
         
         // Gets all entities of type T
         //IEnumerable<T> GetAll();
-        IList<T> GetAll(params Expression<Func<T, object>>[] navigationProperties);
+        IQueryable<T> GetAll(params Expression<Func<T, object>>[] navigationProperties);
         
         // Gets entities using delegate
         //IEnumerable<T> GetMany(Expression<Func<T, bool>> where);

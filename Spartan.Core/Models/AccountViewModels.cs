@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Spartan.API.Models
+namespace Spartan.Core
 {
     // Models returned by AccountController actions.
 
