@@ -109,10 +109,10 @@
     <Compile Include="Extensions\Helpers.cs" />
     <Compile Include="Infrastructure\ApiLogHandler.cs" />
     <Compile Include="Infrastructure\GeneralErrorResult.cs" />
+    <Compile Include="Infrastructure\GeneralExceptionHandler2.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Infrastructure\GeneralExceptionHandler.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
   </ItemGroup>
   <ItemGroup />
