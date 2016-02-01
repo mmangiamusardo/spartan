@@ -232,6 +232,32 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\ladda.css" />
+    <Content Include="Content\css\mobile-angular-ui-base.css" />
+    <Content Include="Content\css\mobile-angular-ui-base.min.css" />
+    <Content Include="Content\css\mobile-angular-ui-desktop.css" />
+    <Content Include="Content\css\mobile-angular-ui-desktop.min.css" />
+    <Content Include="Content\css\mobile-angular-ui-hover.css" />
+    <Content Include="Content\css\mobile-angular-ui-hover.min.css" />
+    <Content Include="Content\css\mobile-angular-ui-migrate.css" />
+    <Content Include="Content\css\mobile-angular-ui-migrate.min.css" />
+    <Content Include="Content\css\site.css" />
+    <Content Include="Content\css\toaster.min.css" />
+    <Content Include="Content\js\angular-route.js" />
+    <Content Include="Content\js\angular.js" />
+    <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Content\js\jquery-1.10.2.min.js" />
+    <Content Include="Content\js\ladda.min.js" />
+    <Content Include="Content\js\mobile-angular-ui.core.js" />
+    <Content Include="Content\js\mobile-angular-ui.core.min.js" />
+    <Content Include="Content\js\mobile-angular-ui.gestures.js" />
+    <Content Include="Content\js\mobile-angular-ui.gestures.min.js" />
+    <Content Include="Content\js\mobile-angular-ui.js" />
+    <Content Include="Content\js\mobile-angular-ui.migrate.js" />
+    <Content Include="Content\js\mobile-angular-ui.migrate.min.js" />
+    <Content Include="Content\js\mobile-angular-ui.min.js" />
+    <Content Include="Content\js\spin.min.js" />
+    <Content Include="Content\js\toaster.min.js" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -262,6 +288,10 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\js\mobile-angular-ui.core.min.js.map" />
+    <Content Include="Content\js\mobile-angular-ui.gestures.min.js.map" />
+    <Content Include="Content\js\mobile-angular-ui.migrate.min.js.map" />
+    <Content Include="Content\js\mobile-angular-ui.min.js.map" />
     <None Include="Index.cshtml" />
     <Content Include="Scripts\app\app.js" />
     <Content Include="Scripts\app\components\articleCmp.html" />
@@ -330,9 +360,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Content\css\" />
     <Folder Include="Content\fonts\" />
-    <Folder Include="Content\js\" />
     <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
