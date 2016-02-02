@@ -44,6 +44,7 @@ namespace Spartan.Tests
         private IGymRepository StpGymRepo()
         {
             var repo = new Mock<IGymRepository>();
+
             repo.Setup(r => r.GetAll().ToList()).
                 Returns(_rndGyms);
 
