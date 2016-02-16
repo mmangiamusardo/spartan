@@ -42,7 +42,7 @@
     app.config(['$routeProvider', function ($routeProvider) {
 
         $routeProvider.when("/gyms/page/:pageIndex/:pageSize", {
-            templateUrl: "Scripts/app/views/gym.html",
+            templateUrl: "Scripts/app/views/gyms.html",
             controller: "gymCtrl",
             resolve: {
                 gyms: function (srvGym, $route) {

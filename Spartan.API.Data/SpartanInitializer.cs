@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
 using Spartan.Domain;
+using System.Linq;
 
 namespace Spartan.Data
 {
@@ -9,7 +10,7 @@ namespace Spartan.Data
         protected override void Seed(SpartanEntitiesContext context)
         {
             //GetClasses().ForEach(c => context.Classes.Add(c));
-            GetGyms().ForEach(g => context.Gyms.Add(g));
+            GetGyms().ToList().ForEach(g => context.Gyms.Add(g));
 
             context.Commit();
         }
@@ -27,23 +28,25 @@ namespace Spartan.Data
             };
         }
 
-        public static List<Gym> GetGyms()
+        public static IQueryable<Gym> GetGyms()
         {
-            return new List<Gym>
+            var gyms = new List<Gym>();
+
+            gyms.Add(new Gym
             {
-                new Gym
-                {
-                    Id = 1,
-                    Name = "CrossFit Box 1",
-                    GymType = GetGymTypes().Find(g => g.Name == "CrossFit Box")
-                },
-                new Gym
-                {
-                    Id = 2,
-                    Name = "Personal Box 1",
-                    GymType = GetGymTypes().Find(g => g.Name == "Personal")
-                }
-            };
+                Id = 1,
+                Name = "CrossFit Box 1",
+                GymType = GetGymTypes().Find(g => g.Name == "CrossFit Box")
+            });
+
+            gyms.Add(new Gym
+            {
+                Id = 2,
+                Name = "Personal Box 1",
+                GymType = GetGymTypes().Find(g => g.Name == "Personal")
+            });
+
+            return gyms.AsQueryable();
         }
 
         public static List<GymType> GetGymTypes()

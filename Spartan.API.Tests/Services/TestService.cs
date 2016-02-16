@@ -27,13 +27,13 @@ namespace Spartan.Tests
             IUnitOfWork _unitOfWork;
 
             IGymRepository _gymRepo;
-            List<Gym> _rndGyms;
+            IQueryable<Gym> _rndGyms;
 
+        [SetUp]
+        public void Setup()
         #endregion
 
         #region Setup
-        [SetUp]
-        public void Setup()
         {
             _rndGyms = SpartanInitializer.GetGyms();
             _gymRepo = StpGymRepo();
@@ -45,13 +45,13 @@ namespace Spartan.Tests
         {
             var repo = new Mock<IGymRepository>();
 
-            repo.Setup(r => r.GetAll().ToList()).
+            repo.Setup(r => r.GetAll()).
                 Returns(_rndGyms);
 
             return repo.Object;
         }
 
-        public List<Gym> StpGyms()
+        public IQueryable<Gym> StpGyms()
         {
             int counter = new int();
             var gyms = SpartanInitializer.GetGyms();
@@ -76,9 +76,9 @@ namespace Spartan.Tests
             var result = gymSrv.GetAllGyms();
 
             // Assert
-            for (int i = 0; i < _rndGyms.Count; i++)
+            for (int i = 0; i < _rndGyms.ToList().Count; i++)
             {
-                Assert.AreEqual(result.ToList()[i].Id, _rndGyms[i].Id);
+                Assert.AreEqual(result.ToList()[i].Id, _rndGyms.ToList()[i].Id);
             }
         }
 
