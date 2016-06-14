@@ -144,7 +144,7 @@ namespace Spartan.Data
         {
             return new ApplicationUser()
             {
-                Id = "f2de7012-5411-4e33-b4c5-abdc54662715",
+                //Id = "f2de7012-5411-4e33-b4c5-abdc54662715",
                 Email = "test@test.com",
                 EmailConfirmed = false,
                 PasswordHash = "ADpKjrhBepfLbKeyQL+ouSHn6YdM6A2htPIT3WFas/C+OD0HrrZWX+TCQt5kuydzfw==",

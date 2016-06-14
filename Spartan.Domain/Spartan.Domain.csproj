@@ -57,10 +57,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationRole.cs" />
     <Compile Include="ApplicationUser2.cs" />
     <Compile Include="ApplicationUserClaim.cs" />
     <Compile Include="ApplicationUserLogin.cs" />
     <Compile Include="ApplicationUserRole.cs" />
+    <Compile Include="Permission.cs" />
     <Compile Include="Subscription.cs" />
     <Compile Include="Athlete.cs" />
     <Compile Include="Attendee.cs" />

@@ -12,7 +12,8 @@ using Spartan.Data.Configurations;
 
 namespace Spartan.Data
 {
-    public class SpartanEntitiesContext : IdentityDbContext<ApplicationUser>
+    public class SpartanEntitiesContext : IdentityDbContext<ApplicationUser, ApplicationRole, int, 
+        ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>
     {
         public SpartanEntitiesContext()
             : base("SpartanEntitiesContext")
