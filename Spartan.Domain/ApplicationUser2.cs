@@ -9,7 +9,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace Spartan.Domain
 {
-    public class ApplicationUser : IdentityUser
+    public class ApplicationUser : IdentityUser<int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>
     {
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(
             UserManager<ApplicationUser> manager, string authenticationType)
