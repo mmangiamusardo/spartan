@@ -30,9 +30,8 @@ namespace Spartan.Domain
             Inactive = false;
         }
 
-
         /// <summary>
-        /// 
+        /// Generate a new Application User
         /// </summary>
         /// <param name="manager"></param>
         /// <param name="authenticationType"></param>

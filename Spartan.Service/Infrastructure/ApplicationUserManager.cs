@@ -19,15 +19,24 @@ namespace Spartan.Service
 
     public class ApplicationUserManager : UserManager<ApplicationUser,int>
     {
-        public ApplicationUserManager(IUserStore<ApplicationUser, int> store)
-            : base(store)
+        public ApplicationUserManager(IUserStore<ApplicationUser, int> store) : base(store) {}
+
+        public static ApplicationUser GetUser(int _userId)
         {
+            // TODO
+            return new ApplicationUser();
+        }
+
+        public static ApplicationUser GetUser(SpartanEntitiesContext db, int _userId)
+        {
+            // TODO
+            return new ApplicationUser();
         }
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
             var ctx = context.Get<SpartanEntitiesContext>();
-            var usrStore = new UserStore<ApplicationUser, int>(ctx);
+            var usrStore = new UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(ctx);
             var manager = new ApplicationUserManager(usrStore);
             
             // Configure validation logic for usernames
@@ -53,5 +62,6 @@ namespace Spartan.Service
             }
             return manager;
         }
+        
     }
 }

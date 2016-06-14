@@ -14,8 +14,7 @@ namespace Spartan.Domain
     /// </summary>
     public class ApplicationUserRole : IdentityUserRole<int>
     {
-        public ApplicationUserRole() : base()
-        { }
+        public ApplicationUserRole() : base() { }
 
         public ApplicationRole Role { get; set; }
 

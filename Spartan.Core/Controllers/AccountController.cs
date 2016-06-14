@@ -11,9 +11,12 @@ using System.Web.Http.ModelBinding;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
+
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
+
+using System.Security.Principal;
 
 using Spartan.Service;
 using Spartan.Domain;
@@ -79,7 +82,9 @@ namespace Spartan.Core
         [Route("ManageInfo")]
         public async Task<ManageInfoViewModel> GetManageInfo(string returnUrl, bool generateState = false)
         {
-            IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            //IdentityUser user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            var user = await UserManager.FindByIdAsync(User.Identity.GetGuidUserId());
 
             if (user == null)
             {
@@ -88,7 +93,7 @@ namespace Spartan.Core
 
             List<UserLoginInfoViewModel> logins = new List<UserLoginInfoViewModel>();
 
-            foreach (IdentityUserLogin linkedAccount in user.Logins)
+            foreach (var linkedAccount in user.Logins)
             {
                 logins.Add(new UserLoginInfoViewModel
                 {
@@ -124,9 +129,12 @@ namespace Spartan.Core
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
+            //IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
+            //    model.NewPassword);
+
+            IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetGuidUserId(), model.OldPassword,
                 model.NewPassword);
-            
+
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -144,7 +152,8 @@ namespace Spartan.Core
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+            //IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetUserId(), model.NewPassword);
+            IdentityResult result = await UserManager.AddPasswordAsync(User.Identity.GetGuidUserId(), model.NewPassword);
 
             if (!result.Succeeded)
             {
@@ -181,7 +190,10 @@ namespace Spartan.Core
                 return BadRequest("The external login is already associated with an account.");
             }
 
-            IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(),
+            //IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetUserId(),
+            //    new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey));
+
+            IdentityResult result = await UserManager.AddLoginAsync(User.Identity.GetGuidUserId(),
                 new UserLoginInfo(externalData.LoginProvider, externalData.ProviderKey));
 
             if (!result.Succeeded)
@@ -205,12 +217,16 @@ namespace Spartan.Core
 
             if (model.LoginProvider == LocalLoginProvider)
             {
-                result = await UserManager.RemovePasswordAsync(User.Identity.GetUserId());
+                //result = await UserManager.RemovePasswordAsync(User.Identity.GetUserId());
+                result = await UserManager.RemovePasswordAsync(User.Identity.GetGuidUserId());
             }
             else
             {
-                result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(),
-                    new UserLoginInfo(model.LoginProvider, model.ProviderKey));
+                //result = await UserManager.RemoveLoginAsync(User.Identity.GetUserId(),
+                //    new UserLoginInfo(model.LoginProvider, model.ProviderKey));
+
+                result = await UserManager.RemoveLoginAsync(User.Identity.GetGuidUserId(),
+                        new UserLoginInfo(model.LoginProvider, model.ProviderKey));
             }
 
             if (!result.Succeeded)
@@ -468,7 +484,8 @@ namespace Spartan.Core
                     {
                         LoginProvider = providerKeyClaim.Issuer,
                         ProviderKey = providerKeyClaim.Value,
-                        UserName = identity.FindFirstValue(ClaimTypes.Name)
+                        //UserName = identity.FindFirstValue(ClaimTypes.Name)
+                        UserName = identity.GetFirstValue(ClaimTypes.Name)
                     };
                 }
             }
