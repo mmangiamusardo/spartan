@@ -10,13 +10,22 @@ using System;
 namespace Spartan.Domain
 {
     /// <summary>
-    /// The ApplicationUserRole class inherits from IdentityUserRole and defines additional properties
+    /// The ApplicationUserRole class inherits from IdentityUserRole and 
+    /// defines additional methods as IsPermissionInRole and IsSysAdmin
     /// </summary>
     public class ApplicationUserRole : IdentityUserRole<int>
     {
         public ApplicationUserRole() : base() { }
 
-        public ApplicationRole Role { get; set; }
+        /// <summary>
+        /// Relates to ApplicationRole
+        /// </summary>
+        public virtual ApplicationRole Role { get; set; }
+
+        /// <summary>
+        /// Relates to ApplicationUser
+        /// </summary>
+        public virtual ApplicationUser User { get; set; }
 
         public bool IsPermissionInRole(string _permission)
         {
@@ -30,7 +39,6 @@ namespace Spartan.Domain
             }
             return _retVal;
         }
-
         public bool IsSysAdmin
         {
             get {

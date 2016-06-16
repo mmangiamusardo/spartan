@@ -9,10 +9,12 @@ namespace Spartan.Data
     {
         protected override void Seed(SpartanEntitiesContext context)
         {
-            //GetClasses().ForEach(c => context.Classes.Add(c));
+            GetClasses().ToList().ForEach(c => context.Classes.Add(c));
             GetGyms().ToList().ForEach(g => context.Gyms.Add(g));
 
+            // why this?
             context.Commit();
+            //base.Seed(context);
         }
 
         public static List<Class> GetClasses()

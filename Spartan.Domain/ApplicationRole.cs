@@ -17,20 +17,27 @@ namespace Spartan.Domain
         public ApplicationRole()
         {
             //this.Id = Guid.NewGuid().ToString();
+            //ApplicationUserRoles = new List<ApplicationUserRole>();
         }
+
         public ApplicationRole(string name)
             : this()
         {
             this.Name = name;
         }
 
-        public ApplicationRole(string name, string description)
-            : this(name)
+        public ApplicationRole(string name, string description) : this(name)
         {
             this.RoleDescription = description;
         }
 
         public DateTime LastModified { get; set; }
+
+        /// <summary>
+        /// A Role associates to many UserRoles
+        /// </summary>
+        //public int ApplicationUserRoleId { get; set; }
+        //public virtual ICollection<ApplicationUserRole> ApplicationUserRoles { get; set; }
 
         /// <summary>
         /// IsSysAdmin is mandatory requirement in order to determine resource authorizations

@@ -16,6 +16,12 @@ namespace Spartan.Domain
     /// </summary>
     public class ApplicationUser : IdentityUser<int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>
     {
+        public ApplicationUser()
+        {
+            LastModified = DateTime.Now;
+            Inactive = false;
+        }
+
         public DateTime LastModified { get; set; }
 
         public bool Inactive { get; set; }
@@ -23,12 +29,6 @@ namespace Spartan.Domain
         public string Firstname { get; set; }
 
         public string Lastname { get; set; }
-
-        public ApplicationUser()
-        {
-            LastModified = DateTime.Now;
-            Inactive = false;
-        }
 
         /// <summary>
         /// Generate a new Application User
@@ -92,5 +92,11 @@ namespace Spartan.Domain
             }
             return _retVal;
         }
+
+        /// <summary>
+        /// An User associates to many UserRoles
+        /// </summary>
+        //public int ApplicationUserRoleId { get; set; }
+        //public virtual ICollection<ApplicationUserRole> ApplicationUserRoles { get; set; }
     }
 }

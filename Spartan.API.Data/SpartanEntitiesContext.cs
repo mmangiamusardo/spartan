@@ -12,8 +12,13 @@ using Spartan.Data.Configurations;
 
 namespace Spartan.Data
 {
-    public class SpartanEntitiesContext : IdentityDbContext<ApplicationUser, ApplicationRole, int, 
-        ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>
+    public class SpartanEntitiesContext : 
+        IdentityDbContext<ApplicationUser, 
+            ApplicationRole, 
+            int, 
+            ApplicationUserLogin, 
+            ApplicationUserRole, 
+            ApplicationUserClaim>
     {
         public SpartanEntitiesContext()
             : base("SpartanEntitiesContext")
@@ -30,13 +35,21 @@ namespace Spartan.Data
             base.SaveChanges();
         }
 
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        protected override void OnModelCreating(DbModelBuilder mb)
         {
-            modelBuilder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
-            modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
-            modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
 
-            modelBuilder.Configurations.Add(new GymConfiguration());
+            //modelBuilder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
+            //modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
+            //mb.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
+
+            mb.Entity<ApplicationUser>().HasKey(u => u.Id);
+            mb.Entity<ApplicationRole>().HasKey(r => r.Id);
+            mb.Entity<ApplicationUserRole>().HasKey(r => new { r.RoleId, r.UserId });
+
+            mb.Entity<ApplicationUserLogin>().HasKey(l => l.UserId);
+
+
+            //mb.Configurations.Add(new GymConfiguration());
         }
 
         public static SpartanEntitiesContext Create()
