@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Spartan.Domain
 {
-    public class Gym
+    public class Gym : SpartanBase
     {
         public int Id { get; set; }
         public string Name { get; set; }
