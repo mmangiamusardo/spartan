@@ -30,6 +30,15 @@ namespace Spartan.API
 
             // Autofac configuration
             var builder = new ContainerBuilder();
+
+            // REGISTER DEPENDENCIES
+            //builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerRequest();
+            //builder.RegisterType<ApplicationUserStore>().As<IUserStore<ApplicationUser>>().InstancePerRequest();
+            //builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
+            //builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();
+            //builder.Register<IAuthenticationManager>(c => HttpContext.Current.GetOwinContext().Authentication).InstancePerRequest();
+            //builder.Register<IDataProtectionProvider>(c => app.GetDataProtectionProvider()).InstancePerRequest();
+
             builder.RegisterApiControllers(typeof(GymsController).Assembly);
 
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerRequest();

@@ -17,6 +17,7 @@ using Spartan.Data.Infrastructure;
 using Spartan.Data.Repositories;
 using Spartan.Domain;
 using Spartan.Service;
+using Spartan.Data.Generators;
 
 namespace Spartan.Tests
 {
@@ -24,44 +25,33 @@ namespace Spartan.Tests
     public class TestService
     {
         #region Variables
-            IUnitOfWork _unitOfWork;
 
+            IUnitOfWork _unitOfWork;
             IGymRepository _gymRepo;
             IQueryable<Gym> _rndGyms;
 
-        [SetUp]
-        public void Setup()
         #endregion
 
         #region Setup
-        {
-            _rndGyms = SpartanInitializer.GetGyms();
-            _gymRepo = StpGymRepo();
 
-            _unitOfWork = new Mock<IUnitOfWork>().Object;
-        }
+            [SetUp]
+            public void Setup()
+            {
+                _rndGyms = Generate.FakeGyms();
+                _gymRepo = StpGymRepo();
 
-        private IGymRepository StpGymRepo()
-        {
-            var repo = new Mock<IGymRepository>();
+                _unitOfWork = new Mock<IUnitOfWork>().Object;
+            }
 
-            repo.Setup(r => r.GetAll()).
-                Returns(_rndGyms);
+            private IGymRepository StpGymRepo()
+            {
+                var repo = new Mock<IGymRepository>();
 
-            return repo.Object;
-        }
+                repo.Setup(r => r.GetAll())
+                    .Returns(_rndGyms);
 
-        public IQueryable<Gym> StpGyms()
-        {
-            int counter = new int();
-            var gyms = SpartanInitializer.GetGyms();
-
-            foreach (Gym g in gyms)
-                g.Id = ++counter;
-
-            return gyms;
-        }
-
+                return repo.Object;
+            }
 
         #endregion
 

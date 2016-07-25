@@ -12,14 +12,66 @@ using System.Threading.Tasks;
 
 using Spartan.Domain;
 using Spartan.Data;
+using Microsoft.Owin.Security.DataProtection;
 
 namespace Spartan.Service
 {
-    // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
-
-    public class ApplicationUserManager : UserManager<ApplicationUser,int>
+    /// <summary>
+    /// Configure the application user manager used in this application.
+    /// UserManager is defined in ASP.NET Identity and is used by the application.
+    /// </summary>
+    public class ApplicationUserManager : UserManager<ApplicationUser, int>
     {
-        public ApplicationUserManager(IUserStore<ApplicationUser, int> store) : base(store) {}
+        public ApplicationUserManager(IUserStore<ApplicationUser,int> store, IDataProtectionProvider dataProtectionProvider)
+        : base(store)
+        {
+       
+            // Configure validation logic for usernames
+            this.UserValidator = new UserValidator<ApplicationUser, int>(this)
+            {
+                AllowOnlyAlphanumericUserNames = false,
+                RequireUniqueEmail = true
+            };
+
+            // Configure validation logic for passwords
+            this.PasswordValidator = new PasswordValidator
+            {
+                RequiredLength = 6,
+                RequireNonLetterOrDigit = true,
+                RequireDigit = true,
+                RequireLowercase = true,
+                RequireUppercase = true,
+            };
+
+            
+            /*
+            // Configure user lockout defaults
+            manager.UserLockoutEnabledByDefault = RBAC_ExtendedMethods.GetConfigSettingAsBool(RBAC_ExtendedMethods.cKey_UserLockoutEnabled);
+            manager.DefaultAccountLockoutTimeSpan = TimeSpan.FromMinutes(RBAC_ExtendedMethods.GetConfigSettingAsDouble(RBAC_ExtendedMethods.cKey_AccountLockoutTimeSpan));
+            manager.MaxFailedAccessAttemptsBeforeLockout = RBAC_ExtendedMethods.GetConfigSettingAsInt(RBAC_ExtendedMethods.cKey_MaxFailedAccessAttemptsBeforeLockout);
+
+            // Register two factor authentication providers. This application uses Phone and Emails as a step of receiving a code for verifying the user
+            // You can write your own provider and plug it in here.
+            manager.RegisterTwoFactorProvider("Phone Code", new PhoneNumberTokenProvider<ApplicationUser, int>
+            {
+                MessageFormat = "Your security code is {0}"
+            });
+
+            manager.RegisterTwoFactorProvider("Email Code", new EmailTokenProvider<ApplicationUser, int>
+            {
+                Subject = "Security Code",
+                BodyFormat = "Your security code is {0}"
+            });
+
+            manager.EmailService = new EmailService();
+            manager.SmsService = new SmsService();
+            */
+
+            if (dataProtectionProvider != null)
+            {
+                this.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser, int>(dataProtectionProvider.Create("ASP.NET Identity"));
+            }
+        }
 
         public static ApplicationUser GetUser(int _userId)
         {
@@ -32,36 +84,5 @@ namespace Spartan.Service
             // TODO
             return new ApplicationUser();
         }
-
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
-        {
-            var ctx = context.Get<SpartanEntitiesContext>();
-            var usrStore = new UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim>(ctx);
-            var manager = new ApplicationUserManager(usrStore);
-            
-            // Configure validation logic for usernames
-            manager.UserValidator = new UserValidator<ApplicationUser, int>(manager)
-            {
-                AllowOnlyAlphanumericUserNames = false,
-                RequireUniqueEmail = true
-            };
-            
-            // Configure validation logic for passwords
-            manager.PasswordValidator = new PasswordValidator
-            {
-                RequiredLength = 6,
-                RequireNonLetterOrDigit = true,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
-            };
-            var dataProtectionProvider = options.DataProtectionProvider;
-            if (dataProtectionProvider != null)
-            {
-                manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser, int>(dataProtectionProvider.Create("ASP.NET Identity"));
-            }
-            return manager;
-        }
-        
     }
 }
