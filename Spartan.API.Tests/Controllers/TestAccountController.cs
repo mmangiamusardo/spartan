@@ -8,6 +8,9 @@ using Spartan.Data;
 using Spartan.Domain;
 using Spartan.Service;
 using Spartan.Core;
+using System.Web.Http.Results;
+using System.Net;
+using System.Web.Http;
 
 namespace Spartan.Tests
 {
@@ -80,7 +83,7 @@ namespace Spartan.Tests
         /// http://chimera.labs.oreilly.com/books/1234000001708/ch17.html#_unit_testing_an_apicontroller
         /// </summary>
         [Test]
-        public void Controller_Should_Register_User()
+        public void Controller_Should_Succeds_Registering_User()
         {
             var args = new object[2];
 
@@ -112,15 +115,17 @@ namespace Spartan.Tests
                 .Returns(Task.FromResult(IdentityResult.Success));
 
             var controller = new AccountController(mockUserManager.Object);
-            controller.ConfigureForTesting(HttpMethod.Post, "http://test.com"); 
+            controller.ConfigureForTesting(HttpMethod.Post, "http://test.com");
 
             // Act
-            var response = controller.Register(model).Result;
+            IHttpActionResult result = controller.Register(model).Result;
 
             //Assert
             mockUserManager
                 .Verify(man => man.CreateAsync(It.IsAny<ApplicationUser>(), It.IsAny<string>()),Times.Once);
-                    
+
+            Assert.AreEqual(((ResponseMessageResult)result).Response.StatusCode, HttpStatusCode.Created);
+            //response.Headers.Location.AbsoluteUri.ShouldEqual("http://test.com/issues/1")
         }
         [Test]
         public void ForgotPassword()

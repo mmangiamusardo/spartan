@@ -56,7 +56,8 @@ namespace Spartan.Core
         {
             if (!ModelState.IsValid)
             {
-                return ResponseMessage(Request.CreateResponse(
+                return ResponseMessage(
+                    Request.CreateResponse(
                      HttpStatusCode.BadRequest, ModelState.GetErrorStrings()));
             }
 
@@ -72,45 +73,21 @@ namespace Spartan.Core
 
                 if (!result.Succeeded)
                 {
-                    return GetErrorResult(result);
+                    return ResponseMessage(Request.CreateResponse(
+                        HttpStatusCode.BadRequest, result.Errors));
                 }
 
-                return Ok();
+                //return Ok();
+                //var response = Request.CreateResponse(HttpStatusCode.Created, result);
+                var response = Request.CreateResponse(HttpStatusCode.Created, result);
+                //var uri = new Uri(Url.Link("DefaultApi", new { Controller = "Account", id = "0" }));
+                //response.Headers.Location = uri;
+                return ResponseMessage(response);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.GetBaseException().Message);
             }
-        }
-
-
-        private IHttpActionResult GetErrorResult(IdentityResult result)
-        {
-            if (result == null)
-            {
-                return InternalServerError();
-            }
-
-            if (!result.Succeeded)
-            {
-                if (result.Errors != null)
-                {
-                    foreach (string error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error);
-                    }
-                }
-
-                if (ModelState.IsValid)
-                {
-                    // No ModelState errors are available to send, so just return an empty BadRequest.
-                    return BadRequest();
-                }
-
-                return BadRequest(ModelState);
-            }
-
-            return null;
         }
 
         public void Dispose()
