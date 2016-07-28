@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Spartan.Core
 {
-    public static class Extensions
+    public static class ModelStateDictionaryExt
     {
         public static IEnumerable<string> GetErrorStrings(this ModelStateDictionary modelState)
         {
@@ -24,17 +24,17 @@ namespace Spartan.Core
 
             return result;
         }
-    }
 
-    public class Error
-    {
-        public Error(string key, string message)
+        public class Error
         {
-            Key = key;
-            Message = message;
-        }
+            public Error(string key, string message)
+            {
+                Key = key;
+                Message = message;
+            }
 
-        public string Key { get; set; }
-        public string Message { get; set; }
+            public string Key { get; set; }
+            public string Message { get; set; }
+        }
     }
 }

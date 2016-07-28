@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
+﻿using System.Data.Entity.Infrastructure;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
@@ -45,6 +43,20 @@ namespace Spartan.Core
                 return BadRequest(ex.GetBaseException().Message);
             }
 
+        }
+
+        /// <summary>
+        /// Dispose all objects
+        /// </summary>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && _gymService != null)
+            {
+                _gymService.Dispose();
+                //_gymService = null;
+            }
+
+            base.Dispose(disposing);
         }
     }
 }

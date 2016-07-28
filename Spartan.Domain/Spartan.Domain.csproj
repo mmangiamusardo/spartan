@@ -69,6 +69,7 @@
     <Compile Include="Subscription.cs" />
     <Compile Include="Athlete.cs" />
     <Compile Include="Attendee.cs" />
+    <Compile Include="Token.cs" />
     <Compile Include="Workout.cs" />
     <Compile Include="Gym.cs" />
     <Compile Include="Event.cs" />

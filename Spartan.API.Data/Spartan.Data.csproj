@@ -81,6 +81,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application\ApplicationUserStore.cs" />
     <Compile Include="Configurations\GymConfiguration.cs" />
     <Compile Include="Extensions\LinqHelper.cs" />
     <Compile Include="Infrastructure\DbFactory.cs" />
@@ -91,7 +92,7 @@
     <Compile Include="Infrastructure\RepositoryBase.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Repositories\ApplicationUserRepository.cs" />
+    <Compile Include="Application\ApplicationUserRepository.cs" />
     <Compile Include="Repositories\AthleteRepository.cs" />
     <Compile Include="Repositories\GymRepository.cs" />
     <Compile Include="SpartanInitializer.cs" />

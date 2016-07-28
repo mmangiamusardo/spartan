@@ -38,12 +38,12 @@ namespace Spartan.Tests
             public void Setup()
             {
                 _rndGyms = Generate.FakeGyms();
-                _gymRepo = StpGymRepo();
+                _gymRepo = SetupGymRepo();
 
                 _unitOfWork = new Mock<IUnitOfWork>().Object;
             }
 
-            private IGymRepository StpGymRepo()
+            private IGymRepository SetupGymRepo()
             {
                 var repo = new Mock<IGymRepository>();
 

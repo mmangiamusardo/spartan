@@ -25,67 +25,147 @@ using Spartan.Data.Repositories;
 using Spartan.Domain;
 using Spartan.Service;
 using Spartan.Data.Generators;
+using System.Security.Claims;
 
 namespace Spartan.Tests
 {
     [TestFixture]
     public class TestApplicationService
     {
-
         #region Variables
 
-            IUnitOfWork _unitOfWork;
-            IApplicationUserRepository _appUsrRepo;
-            IQueryable<ApplicationUser> _rndUsrs;
+        IUnitOfWork _unitOfWork;
+        IApplicationUserRepository _appUsrRepo;
 
-            // ApplicationUserManager _mockUserManager;
-            // UserStore<ApplicationUser, ApplicationRole, int, ApplicationUserLogin, ApplicationUserRole, ApplicationUserClaim> _mockUserStore;
+        ApplicationUserStore _appUsrStore;
+        ApplicationUserManager _appUsrManager;
+
+        IQueryable<ApplicationUser> _rndUsrs;
 
         #endregion
 
         #region Setup
 
-            [SetUp]
-            public void Setup()
+        [SetUp]
+        public void Setup()
+        {
+            _rndUsrs = Generate.FakeUsers();
+            _appUsrRepo = SetupApplicationUserRepo();
+            _appUsrStore = SetupMockApplicationUserStore();
+            _unitOfWork = new Mock<IUnitOfWork>().Object;
+        }
+
+        private ApplicationUserManager SetupMockApplicationUserManager(ApplicationUserStore storeMock)
+        {
+            var managerMock = new Mock<ApplicationUserManager>(storeMock);
+
+
+            return managerMock.Object;
+        }
+
+        private ApplicationUserStore SetupMockApplicationUserStore()
+        {
+            //var storeMock = new Mock<ApplicationUserStore>(SpartanEntitiesContext.Create());
+            var storeMock = new Mock<ApplicationUserStore>(new DbFactory());
+            var pwdHsh = new PasswordHasher().HashPassword("test");
+
+            storeMock
+                .Setup(s => s.FindByIdAsync(It.IsAny<int>()))
+                .Returns(
+                    (int _Id) => Task.FromResult(_rndUsrs.Where(x => x.Id == _Id).SingleOrDefault())
+                );
+
+            //storeMock.Setup(
+            //    s => s.CreateAsync(It.IsAny<ApplicationUser>()))
+            //    .Returns(
+            //        Task.FromResult(IdentityResult.Success)
+            //    );
+
+            storeMock
+                .Setup(s => s.GetPasswordHashAsync(It.IsAny<ApplicationUser>()))
+                .ReturnsAsync(pwdHsh);
+
+            return storeMock.Object;
+        }
+
+        private IApplicationUserRepository SetupApplicationUserRepo()
+        {
+            var repoMock = new Mock<IApplicationUserRepository>();
+
+            repoMock.Setup(
+            // il metodo Add esposto dall'interfaccia accetta come argomento
+            u => u.Add(It.IsAny<ApplicationUser>()))
+            // implementa il metodo callback da invocare che riceve come argomento quello esposto
+            .Callback(new Action<ApplicationUser>(newUsr =>
             {
-                _rndUsrs = Generate.FakeUsers();
-                _appUsrRepo = SetupApplicationUserRepo();
+                dynamic maxUsrId = _rndUsrs.Last().Id;
+                newUsr.Id = maxUsrId + 1;
+                var list = _rndUsrs.ToList();
 
-                _mockUserStore = ApplicatioUserStore();
-            //_mockUserManager = new ApplicationUserManager(_mockUserStore, null);
+                list.Add(newUsr);
+                _rndUsrs = list.AsQueryable();
+            })
+            );
 
-                _unitOfWork = new Mock<IUnitOfWork>().Object;
+            repoMock.Setup(r => r.GetAll())
+                .Returns(_rndUsrs);
 
-            }
+            return repoMock.Object;
 
-            private IApplicationUserRepository SetupApplicationUserRepo()
-            {
-                var repo = new Mock<IApplicationUserRepository>();
+        }
 
-                repo.Setup(r => r.GetAll())
-                    .Returns(_rndUsrs);
+        public void Can_Create_User()
+        {
+            //Arrange
+            var dummyUser = new ApplicationUser() { UserName = "PinkWarrior", Email = "PinkWarrior@PinkWarrior.com" };
+            var mockStore = new Mock<ApplicationUserStore>();
 
-                return repo.Object;
-            }
+            var userManager = new ApplicationUserManager(mockStore.Object, null);
+            mockStore.Setup(x => x.CreateAsync(dummyUser))
+                        .Returns(Task.FromResult(IdentityResult.Success));
 
-            //private  Mock<UserManager<TUser>> MockUserManager<TUser>() where TUser : class
-            //{
-            //    IList<IUserValidator<TUser>> UserValidators = new List<IUserValidator<TUser>>();
-            //    IList<IPasswordValidator<TUser>> PasswordValidators = new List<IPasswordValidator<TUser>>();
+            mockStore.Setup(x => x.FindByNameAsync(dummyUser.UserName))
+                        .Returns(Task.FromResult(dummyUser));
 
-            //    var store = new Mock<IUserStore<TUser>>();
-            //    UserValidators.Add(new UserValidator<TUser>());
-            //    PasswordValidators.Add(new PasswordValidator<TUser>());
-            //    var mgr = new Mock<UserManager<TUser>>(store.Object, null, null, UserValidators, PasswordValidators, null, null, null, null, null);
-            //    return mgr;
-            //}
+
+            //Act
+            Task<IdentityResult> tt = (Task<IdentityResult>)mockStore.Object.CreateAsync(dummyUser);
+            var user = userManager.FindByName("PinkWarrior");
+
+            //Assert
+            Assert.AreEqual("PinkWarrior", user.UserName);
+        }
 
         #endregion
 
-        #region Tests
+        #region Unit Tests
+
         [Test]
         public void Service_Should_Create_User()
         {
+            // Arrange
+            var pwd = "testpwd";
+            var pwdHsh = new PasswordHasher().HashPassword(pwd);
+            var testUsr = new ApplicationUser()
+            {
+                UserName = "testurs",
+                PasswordHash = pwdHsh
+            };
+
+
+            int _maxIDBeforeAdd = _rndUsrs.Max(u => u.Id);
+            var _appUsrService = new ApplicationUserService(_appUsrRepo, _unitOfWork, _appUsrStore);
+
+            // Act
+            //_appUsrService.CreateUser(testUsr);
+
+            //_appUsrService.appUsrStore.CreateAsync(testUsr);
+            
+
+            // Assert
+            Assert.That(testUsr, Is.EqualTo(_rndUsrs.Last()));
+            Assert.That(_maxIDBeforeAdd + 1, Is.EqualTo(_rndUsrs.Last().Id));
+
 
         }
 

@@ -19,6 +19,7 @@ namespace Spartan.Service
     /// <summary>
     /// Configure the application user manager used in this application.
     /// UserManager is defined in ASP.NET Identity and is used by the application.
+    /// UserManager manages instances of the ApplicationUser
     /// </summary>
     public class ApplicationUserManager : UserManager<ApplicationUser, int>
     {

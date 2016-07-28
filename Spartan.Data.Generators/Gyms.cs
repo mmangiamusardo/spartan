@@ -11,8 +11,6 @@ namespace Spartan.Data.Generators
 {
     public partial class Generate
     {
-        private static RandomGenerator daysGenerator = new RandomGenerator();
-
         public static IQueryable<Gym> FakeGyms()
         {
             var gyms = Builder<Gym>.CreateListOfSize(100)

@@ -10,16 +10,16 @@ using Spartan.Domain;
 
 namespace Spartan.Service
 {
-    public interface IGymService
+    public interface IGymService : IDisposable
     {
         IQueryable<Gym> GetAllGyms();
         PagedCollection<Gym> GetPagedGyms(int? page, int? pageSize);
         void CreateGym(Gym gym);
     }
 
-    public class GymService : IGymService
+    public class GymService : IGymService, IDisposable
     {
-        private readonly IGymRepository gymRepository;
+        private IGymRepository gymRepository;
         private readonly IUnitOfWork unitOfWork;
 
         public GymService(IGymRepository gymRepository, IUnitOfWork unitOfWork)
@@ -58,5 +58,45 @@ namespace Spartan.Service
             gymRepository.Add(gym);
             unitOfWork.Commit();
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false; // To detect redundant calls
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                    gymRepository = null;
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.
+                // TODO: set large fields to null.
+
+                disposedValue = true;
+            }
+        }
+
+        // TODO: override a finalizer only if Dispose(bool disposing) above has code to free unmanaged resources.
+        // ~GymService() {
+        //   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+        //   Dispose(false);
+        // }
+
+        // This code added to correctly implement the disposable pattern.
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(true);
+            // TODO: uncomment the following line if the finalizer is overridden above.
+            // GC.SuppressFinalize(this);
+        }
+        #endregion
+
+
+
+
     }
 }

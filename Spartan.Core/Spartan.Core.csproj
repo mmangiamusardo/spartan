@@ -106,12 +106,15 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\GymController.cs" />
-    <Compile Include="Extensions\Helpers.cs" />
+    <Compile Include="Extensions\ApiControllerExt.cs" />
+    <Compile Include="Extensions\ModelStateDictionaryExt.cs" />
+    <Compile Include="Helpers\IdentityHelper.cs" />
     <Compile Include="Infrastructure\ApiLogHandler.cs" />
     <Compile Include="Infrastructure\GeneralErrorResult.cs" />
     <Compile Include="Infrastructure\GeneralExceptionHandler2.cs" />
-    <Compile Include="Models\AccountBindingModels.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="ViewModels\SetPassword.cs" />
+    <Compile Include="ViewModels\ChangePassword.cs" />
+    <Compile Include="ViewModels\Register.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
   </ItemGroup>
