@@ -154,7 +154,7 @@ namespace Spartan.Tests
 
 
             int _maxIDBeforeAdd = _rndUsrs.Max(u => u.Id);
-            var _appUsrService = new ApplicationUserService(_appUsrRepo, _unitOfWork, _appUsrStore);
+            //var _appUsrService = new ApplicationUserService(_appUsrRepo, _unitOfWork, _appUsrStore);
 
             // Act
             //_appUsrService.CreateUser(testUsr);

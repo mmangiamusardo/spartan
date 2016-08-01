@@ -106,7 +106,6 @@
   <ItemGroup>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\GymController.cs" />
-    <Compile Include="Extensions\ApiControllerExt.cs" />
     <Compile Include="Extensions\ModelStateDictionaryExt.cs" />
     <Compile Include="Helpers\IdentityHelper.cs" />
     <Compile Include="Infrastructure\ApiLogHandler.cs" />

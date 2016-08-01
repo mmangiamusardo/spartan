@@ -85,7 +85,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Infrastructure\ApplicationUserService.cs" />
     <Compile Include="Infrastructure\PrincipalExtensions.cs" />
     <Compile Include="Pagination\PagedCollection.cs" />
     <Compile Include="Services\AthleteService.cs" />
