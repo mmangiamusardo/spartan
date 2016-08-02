@@ -41,8 +41,6 @@ namespace Spartan.Core
             }
         }
 
-        public AccountController() { }
-
         public AccountController(ApplicationUserManager userManager)
         {
             UserManager = userManager;

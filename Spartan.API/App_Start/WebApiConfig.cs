@@ -14,8 +14,11 @@ using Autofac.Integration.WebApi;
 
 using Spartan.Core;
 using Spartan.Service;
+using Spartan.Data;
 using Spartan.Data.Repositories;
 using Spartan.Data.Infrastructure;
+using Microsoft.AspNet.Identity;
+using Spartan.Domain;
 
 namespace Spartan.API
 {
@@ -32,8 +35,8 @@ namespace Spartan.API
             var builder = new ContainerBuilder();
 
             // REGISTER DEPENDENCIES
-            //builder.RegisterType<ApplicationDbContext>().AsSelf().InstancePerRequest();
-            //builder.RegisterType<ApplicationUserStore>().As<IUserStore<ApplicationUser>>().InstancePerRequest();
+            builder.RegisterType<SpartanEntitiesContext>().AsSelf().InstancePerRequest();
+            builder.RegisterType<ApplicationUserStore>().As<IUserStore<ApplicationUser, int>>().InstancePerRequest();
             //builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
             //builder.RegisterType<ApplicationSignInManager>().AsSelf().InstancePerRequest();
             //builder.Register<IAuthenticationManager>(c => HttpContext.Current.GetOwinContext().Authentication).InstancePerRequest();
@@ -53,6 +56,11 @@ namespace Spartan.API
             builder.RegisterAssemblyTypes(typeof(GymService).Assembly)
                .Where(t => t.Name.EndsWith("Service"))
                .AsImplementedInterfaces().InstancePerRequest();
+
+            //builder.Register<ApplicationUserStore>().AsImplementedInterfaces().Instanc‌​ePerRequest();
+            //builder.Register<IdentityFactoryOptions<ApplicationUserManager>>(c => new IdentityFactoryOptions<ApplicationUserManager>()
+            //    { DataProtectionProvider = new Microsoft.Owin.Security.DataProtection.DpapiDataProtectionProvider("ApplicationN‌​ame") });
+            //builder.RegisterType<ApplicationUserManager>().AsSelf().InstancePerRequest();
 
             IContainer container = builder.Build();
             config.DependencyResolver = new AutofacWebApiDependencyResolver(container);
